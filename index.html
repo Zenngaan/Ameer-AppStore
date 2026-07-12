@@ -20,26 +20,54 @@
         /* HEADER */
         .header {
             width: 100%; max-width: 480px; background-color: #dc2626; border-radius: 12px;
-            padding: 16px 12px; display: flex; align-items: center; gap: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-bottom: 20px;
+            padding: 16px 12px; display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-bottom: 20px;
         }
+        .header-left { display: flex; align-items: center; gap: 12px; }
         .app-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; background: white; padding: 2px; }
         .header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .header-version { font-size: 15px; font-weight: 600; color: #fce7f3; }
 
         /* APP LIST */
         .apps-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px; margin-bottom: auto; }
         .app-card {
             background-color: #3a3a3a; border-radius: 10px; padding: 12px;
-            display: flex; align-items: center; gap: 12px;
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
         }
         .app-thumb { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; }
-        .app-info { flex: 1; }
+        .app-info { flex: 1; min-width: 120px; }
         .app-name { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+
+        /* BUTTONS */
+        .btn-group { display: flex; gap: 8px; width: 100%; margin-top: 8px; }
+        .desc-btn {
+            background: #4b5563; color: white; padding: 8px 12px; border-radius: 8px;
+            border: none; font-size: 14px; font-weight: bold; cursor: pointer; flex: 1;
+        }
+        .desc-btn:hover { background: #374151; }
         .download-btn {
-            background: #16a34a; color: white; padding: 8px 14px; border-radius: 8px;
-            text-decoration: none; font-size: 14px; font-weight: bold; white-space: nowrap;
+            background: #16a34a; color: white; padding: 8px 12px; border-radius: 8px;
+            text-decoration: none; font-size: 14px; font-weight: bold; text-align: center; flex: 1;
         }
         .download-btn:hover { background: #15803d; }
+
+        /* DESCRIPTION POPUP */
+        .popup-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 20px;
+            z-index: 999;
+        }
+        .popup-box {
+            background: #2b2b2b; border: 2px solid #dc2626; border-radius: 12px;
+            padding: 25px; max-width: 400px; width: 100%; text-align: center;
+        }
+        .popup-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #dc2626; }
+        .popup-text { font-size: 15px; line-height: 1.7; color: #e0e0e0; }
+        .close-btn {
+            margin-top: 20px; padding: 8px 20px; background: #dc2626; color: white;
+            border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+        .close-btn:hover { background: #b91c1c; }
 
         /* SOCIAL BUTTONS */
         .social-container { margin-top: 25px; margin-bottom: 15px; display: flex; gap: 10px; }
@@ -54,8 +82,11 @@
 <body>
 
 <div class="header">
-    <img src="Store.jpg" alt="Icon" class="app-icon">
-    <div class="header-title">Ameer AppStore</div>
+    <div class="header-left">
+        <img src="Store.jpg" alt="Icon" class="app-icon">
+        <div class="header-title">Ameer AppStore</div>
+    </div>
+    <div class="header-version">V1.0.0</div>
 </div>
 
 <div class="apps-container">
@@ -64,8 +95,24 @@
         <div class="app-info">
             <div class="app-name">The Camp</div>
         </div>
-        <!-- GAMIT NA ANG TAMANG LINK DITO -->
-        <a href="https://www.mediafire.com/file/uuhts7f5tvvib0j/The_Camp.apk/file" class="download-btn">Download</a>
+        <div class="btn-group">
+            <button class="desc-btn" onclick="openPopup()">Description</button>
+            <a href="https://www.mediafire.com/file/uuhts7f5tvvib0j/The_Camp.apk/download" class="download-btn">Download</a>
+        </div>
+    </div>
+</div>
+
+<!-- DESCRIPTION POPUP -->
+<div class="popup-overlay" id="descPopup">
+    <div class="popup-box">
+        <div class="popup-title">The Camp</div>
+        <div class="popup-text">
+            Version 1.0.0<br><br>
+            This game created by Ameer<br><br>
+            This game is not fully done and short story for demo only<br><br>
+            Download now for free and enjoy thank you!!
+        </div>
+        <button class="close-btn" onclick="closePopup()">Close</button>
     </div>
 </div>
 
@@ -73,6 +120,15 @@
     <a href="https://www.facebook.com/share/1AU3g3q6Z9/" target="_blank" class="social-btn fb-btn">Facebook</a>
     <a href="https://www.tiktok.com/@ameergamestudio?_r=1&_t=ZS-97yOZ2D98vU" target="_blank" class="social-btn tiktok-btn">TikTok</a>
 </div>
+
+<script>
+function openPopup() {
+    document.getElementById('descPopup').style.display = 'flex';
+}
+function closePopup() {
+    document.getElementById('descPopup').style.display = 'none';
+}
+</script>
 
 </body>
 </html>
