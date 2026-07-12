@@ -27,6 +27,13 @@
         .app-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; background: white; padding: 2px; }
         .header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
         .header-version { font-size: 15px; font-weight: 600; color: #fce7f3; }
+        /* NEW ABOUT BUTTON IN HEADER */
+        .about-header-btn {
+            background: rgba(255,255,255,0.2); color: white; border: 1px solid white;
+            padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: bold;
+            cursor: pointer; transition: 0.2s;
+        }
+        .about-header-btn:hover { background: rgba(255,255,255,0.3); }
 
         /* APP LIST */
         .apps-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px; margin-bottom: auto; }
@@ -51,7 +58,7 @@
         }
         .download-btn:hover { background: #15803d; }
 
-        /* DESCRIPTION POPUP */
+        /* POPUP STYLES */
         .popup-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 20px;
@@ -86,7 +93,11 @@
         <img src="Store.jpg" alt="Icon" class="app-icon">
         <div class="header-title">Ameer AppStore</div>
     </div>
-    <div class="header-version">V1.0.0</div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="header-version">V1.0.0</div>
+        <!-- NEW ABOUT BUTTON -->
+        <button class="about-header-btn" onclick="openAboutPopup()">About Ameer</button>
+    </div>
 </div>
 
 <div class="apps-container">
@@ -102,7 +113,7 @@
     </div>
 </div>
 
-<!-- DESCRIPTION POPUP -->
+<!-- GAME DESCRIPTION POPUP -->
 <div class="popup-overlay" id="descPopup">
     <div class="popup-box">
         <div class="popup-title">The Camp</div>
@@ -116,17 +127,44 @@
     </div>
 </div>
 
+<!-- NEW ABOUT AMEER POPUP -->
+<div class="popup-overlay" id="aboutPopup">
+    <div class="popup-box">
+        <div class="popup-title">About Ameer</div>
+        <div class="popup-text">
+            Hi! My nickname is Ameer 🎮<br><br>
+            My full name: <b>Ronn-Rylee Jazzemeer Sahiron Gaan</b><br>
+            Age: 17 years old<br>
+            Birthday: June 14, 2009<br>
+            From: Tawi-Tawi, Philippines 🇵🇭<br>
+            Status: Single<br>
+            Role: Independent Game Developer ✨<br><br>
+            Thank you for visiting my AppStore!
+        </div>
+        <button class="close-btn" onclick="closeAboutPopup()">Close</button>
+    </div>
+</div>
+
 <div class="social-container">
     <a href="https://www.facebook.com/share/1AU3g3q6Z9/" target="_blank" class="social-btn fb-btn">Facebook</a>
     <a href="https://www.tiktok.com/@ameergamestudio?_r=1&_t=ZS-97yOZ2D98vU" target="_blank" class="social-btn tiktok-btn">TikTok</a>
 </div>
 
 <script>
+// Existing functions
 function openPopup() {
     document.getElementById('descPopup').style.display = 'flex';
 }
 function closePopup() {
     document.getElementById('descPopup').style.display = 'none';
+}
+
+// New functions for About popup
+function openAboutPopup() {
+    document.getElementById('aboutPopup').style.display = 'flex';
+}
+function closeAboutPopup() {
+    document.getElementById('aboutPopup').style.display = 'none';
 }
 </script>
 
