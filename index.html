@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ameer AppStore</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+        /* FORCE PORTRAIT ONLY */
+        @media screen and (orientation: landscape) {
+            html { transform: rotate(-90deg); transform-origin: left top; width: 100vh; height: 100vw; overflow-x: hidden; position: absolute; top: 100%; left: 0; }
+        }
+
+        body {
+            background-color: #2b2b2b; min-height: 100vh; width: 100%; color: white;
+            padding: 15px; display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* HEADER */
+        .header {
+            width: 100%; max-width: 480px; background-color: #dc2626; border-radius: 12px;
+            padding: 16px 12px; display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-bottom: 20px;
+        }
+        .app-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; background: white; padding: 2px; }
+        .header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+
+        /* APP LIST */
+        .apps-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px; margin-bottom: auto; }
+        .app-card {
+            background-color: #3a3a3a; border-radius: 10px; padding: 12px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .app-thumb { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; }
+        .app-info { flex: 1; }
+        .app-name { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+        .download-btn {
+            background: #16a34a; color: white; padding: 8px 14px; border-radius: 8px;
+            text-decoration: none; font-size: 14px; font-weight: bold; white-space: nowrap;
+        }
+        .download-btn:hover { background: #15803d; }
+
+        /* SOCIAL BUTTONS */
+        .social-container { margin-top: 25px; margin-bottom: 15px; display: flex; gap: 10px; }
+        .social-btn {
+            padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500;
+            text-decoration: none; color: white; text-align: center;
+        }
+        .fb-btn { background: #1877F2; }
+        .tiktok-btn { background: #000; border: 1px solid #fe2c55; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="Store.jpg" alt="Icon" class="app-icon">
+    <div class="header-title">Ameer AppStore</div>
+</div>
+
+<div class="apps-container">
+    <div class="app-card">
+        <img src="Apk1.jpg" alt="The Camp" class="app-thumb">
+        <div class="app-info">
+            <div class="app-name">The Camp</div>
+        </div>
+        <!-- GAMIT NA ANG TAMANG LINK DITO -->
+        <a href="https://drive.google.com/uc?export=download&id=1c52xelRBgzfxpjtki5Wtoc2czm5wPEUa" class="download-btn">Download</a>
+    </div>
+</div>
+
+<div class="social-container">
+    <a href="https://www.facebook.com/share/1AU3g3q6Z9/" target="_blank" class="social-btn fb-btn">Facebook</a>
+    <a href="https://www.tiktok.com/@ameergamestudio?_r=1&_t=ZS-97yOZ2D98vU" target="_blank" class="social-btn tiktok-btn">TikTok</a>
+</div>
+
+</body>
+</html>
