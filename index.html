@@ -27,13 +27,6 @@
         .app-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; background: white; padding: 2px; }
         .header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
         .header-version { font-size: 15px; font-weight: 600; color: #fce7f3; }
-        /* NEW ABOUT BUTTON IN HEADER */
-        .about-header-btn {
-            background: rgba(255,255,255,0.2); color: white; border: 1px solid white;
-            padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: bold;
-            cursor: pointer; transition: 0.2s;
-        }
-        .about-header-btn:hover { background: rgba(255,255,255,0.3); }
 
         /* APP LIST */
         .apps-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px; margin-bottom: auto; }
@@ -51,17 +44,15 @@
             background: #4b5563; color: white; padding: 8px 12px; border-radius: 8px;
             border: none; font-size: 14px; font-weight: bold; cursor: pointer; flex: 1;
         }
-        .desc-btn:hover { background: #374151; }
         .download-btn {
             background: #16a34a; color: white; padding: 8px 12px; border-radius: 8px;
-            text-decoration: none; font-size: 14px; font-weight: bold; text-align: center; flex: 1;
+            border: none; font-size: 14px; font-weight: bold; cursor: pointer; flex: 1;
         }
-        .download-btn:hover { background: #15803d; }
 
-        /* POPUP STYLES */
+        /* POPUP BOXES */
         .popup-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 20px;
+            background: rgba(0,0,0,0.75); justify-content: center; align-items: center; padding: 20px;
             z-index: 999;
         }
         .popup-box {
@@ -69,21 +60,27 @@
             padding: 25px; max-width: 400px; width: 100%; text-align: center;
         }
         .popup-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #dc2626; }
-        .popup-text { font-size: 15px; line-height: 1.7; color: #e0e0e0; }
-        .close-btn {
-            margin-top: 20px; padding: 8px 20px; background: #dc2626; color: white;
-            border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+        .popup-text { font-size: 15px; line-height: 1.7; color: #e0e0e0; margin-bottom: 15px; }
+        .pass-input {
+            width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #777;
+            background: #333; color: white; font-size: 15px; margin-bottom: 12px; text-align: center;
         }
-        .close-btn:hover { background: #b91c1c; }
+        .error-msg { color: #ff4d4d; font-size: 13px; margin-bottom: 10px; display: none; }
+        .close-btn, .submit-btn {
+            padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none;
+        }
+        .close-btn { background: #dc2626; color: white; margin-right: 8px; }
+        .submit-btn { background: #16a34a; color: white; }
 
-        /* SOCIAL BUTTONS */
-        .social-container { margin-top: 25px; margin-bottom: 15px; display: flex; gap: 10px; }
-        .social-btn {
+        /* BOTTOM BUTTONS */
+        .bottom-buttons { margin-top: 25px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .social-btn, .about-btn {
             padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500;
-            text-decoration: none; color: white; text-align: center;
+            text-decoration: none; color: white; text-align: center; border: none; cursor: pointer;
         }
         .fb-btn { background: #1877F2; }
         .tiktok-btn { background: #000; border: 1px solid #fe2c55; }
+        .about-btn { background: #7c3aed; }
     </style>
 </head>
 <body>
@@ -93,11 +90,7 @@
         <img src="Store.jpg" alt="Icon" class="app-icon">
         <div class="header-title">Ameer AppStore</div>
     </div>
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <div class="header-version">V1.0.0</div>
-        <!-- NEW ABOUT BUTTON -->
-        <button class="about-header-btn" onclick="openAboutPopup()">About Ameer</button>
-    </div>
+    <div class="header-version">V1.0.0</div>
 </div>
 
 <div class="apps-container">
@@ -107,13 +100,13 @@
             <div class="app-name">The Camp</div>
         </div>
         <div class="btn-group">
-            <button class="desc-btn" onclick="openPopup()">Description</button>
-            <a href="https://www.mediafire.com/file/uuhts7f5tvvib0j/The_Camp.apk/download" class="download-btn">Download</a>
+            <button class="desc-btn" onclick="openDescPopup()">Description</button>
+            <button class="download-btn" onclick="openPassPopup()">Download</button>
         </div>
     </div>
 </div>
 
-<!-- GAME DESCRIPTION POPUP -->
+<!-- DESCRIPTION POPUP -->
 <div class="popup-overlay" id="descPopup">
     <div class="popup-box">
         <div class="popup-title">The Camp</div>
@@ -121,50 +114,71 @@
             Version 1.0.0<br><br>
             This game created by Ameer<br><br>
             This game is not fully done and short story for demo only<br><br>
+            <strong>This game requires a download code — for my classmates only.<br>I can't share this if you are not my classmate.</strong><br><br>
             Download now for free and enjoy thank you!!
         </div>
-        <button class="close-btn" onclick="closePopup()">Close</button>
+        <button class="close-btn" onclick="closeDescPopup()">Close</button>
     </div>
 </div>
 
-<!-- NEW ABOUT AMEER POPUP -->
+<!-- PASSWORD / CODE POPUP -->
+<div class="popup-overlay" id="passPopup">
+    <div class="popup-box">
+        <div class="popup-title">Enter Download Code</div>
+        <input type="password" id="codeInput" class="pass-input" placeholder="Type code here">
+        <div class="error-msg" id="errorMsg">Wrong code! Try again.</div>
+        <button class="close-btn" onclick="closePassPopup()">Cancel</button>
+        <button class="submit-btn" onclick="checkCode()">Submit</button>
+    </div>
+</div>
+
+<!-- ABOUT AMEER POPUP -->
 <div class="popup-overlay" id="aboutPopup">
     <div class="popup-box">
         <div class="popup-title">About Ameer</div>
         <div class="popup-text">
-            Hi! My nickname is Ameer 🎮<br><br>
-            My full name: <b>Ronn-Rylee Jazzemeer Sahiron Gaan</b><br>
-            Age: 17 years old<br>
-            Birthday: June 14, 2009<br>
-            From: Tawi-Tawi, Philippines 🇵🇭<br>
-            Status: Single<br>
-            Role: Independent Game Developer ✨<br><br>
-            Thank you for visiting my AppStore!
+            Hi My nickname is Ameer<br><br>
+            My Name is Ronn-Rylee Jazzemeer Sahiron Gaan<br><br>
+            I'm 17 years old and born June 14, 2009<br><br>
+            I'm from Tawi-Tawi<br><br>
+            And also I'm an solo indie game developer<br><br>
+            Thank you!!
         </div>
         <button class="close-btn" onclick="closeAboutPopup()">Close</button>
     </div>
 </div>
 
-<div class="social-container">
+<div class="bottom-buttons">
+    <button class="about-btn" onclick="openAboutPopup()">About Ameer</button>
     <a href="https://www.facebook.com/share/1AU3g3q6Z9/" target="_blank" class="social-btn fb-btn">Facebook</a>
     <a href="https://www.tiktok.com/@ameergamestudio?_r=1&_t=ZS-97yOZ2D98vU" target="_blank" class="social-btn tiktok-btn">TikTok</a>
 </div>
 
 <script>
-// Existing functions
-function openPopup() {
-    document.getElementById('descPopup').style.display = 'flex';
+// POPUP FUNCTIONS
+function openDescPopup() { document.getElementById('descPopup').style.display = 'flex'; }
+function closeDescPopup() { document.getElementById('descPopup').style.display = 'none'; }
+function openPassPopup() {
+    document.getElementById('passPopup').style.display = 'flex';
+    document.getElementById('codeInput').value = '';
+    document.getElementById('errorMsg').style.display = 'none';
 }
-function closePopup() {
-    document.getElementById('descPopup').style.display = 'none';
-}
+function closePassPopup() { document.getElementById('passPopup').style.display = 'none'; }
+function openAboutPopup() { document.getElementById('aboutPopup').style.display = 'flex'; }
+function closeAboutPopup() { document.getElementById('aboutPopup').style.display = 'none'; }
 
-// New functions for About popup
-function openAboutPopup() {
-    document.getElementById('aboutPopup').style.display = 'flex';
-}
-function closeAboutPopup() {
-    document.getElementById('aboutPopup').style.display = 'none';
+// CODE CHECKER
+const CORRECT_CODE = 'ForMyCmOnly';
+const DOWNLOAD_LINK = 'https://www.mediafire.com/file/uuhts7f5tvvib0j/The_Camp.apk/download';
+
+function checkCode() {
+    const input = document.getElementById('codeInput').value.trim();
+    if (input === CORRECT_CODE) {
+        closePassPopup();
+        window.open(DOWNLOAD_LINK, '_blank');
+    } else {
+        document.getElementById('errorMsg').style.display = 'block';
+    }
 }
 </script>
 
