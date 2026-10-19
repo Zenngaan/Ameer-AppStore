@@ -1,185 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ameer AppStore</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+<meta charset="UTF-8">
 
-        /* FORCE PORTRAIT ONLY */
-        @media screen and (orientation: landscape) {
-            html { transform: rotate(-90deg); transform-origin: left top; width: 100vh; height: 100vw; overflow-x: hidden; position: absolute; top: 100%; left: 0; }
-        }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-        body {
-            background-color: #2b2b2b; min-height: 100vh; width: 100%; color: white;
-            padding: 15px; display: flex; flex-direction: column; align-items: center;
-        }
+<meta name="theme-color" content="#202020">
 
-        /* HEADER */
-        .header {
-            width: 100%; max-width: 480px; background-color: #dc2626; border-radius: 12px;
-            padding: 16px 12px; display: flex; align-items: center; justify-content: space-between;
-            gap: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-bottom: 20px;
-        }
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .app-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; background: white; padding: 2px; }
-        .header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
-        .header-version { font-size: 15px; font-weight: 600; color: #fce7f3; }
+<title>SpotiMeer</title>
+<link rel="icon" href="Icon.jpg">
 
-        /* APP LIST */
-        .apps-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px; margin-bottom: auto; }
-        .app-card {
-            background-color: #3a3a3a; border-radius: 10px; padding: 12px;
-            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-        }
-        .app-thumb { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; }
-        .app-info { flex: 1; min-width: 120px; }
-        .app-name { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+<style>
 
-        /* BUTTONS */
-        .btn-group { display: flex; gap: 8px; width: 100%; margin-top: 8px; }
-        .desc-btn {
-            background: #4b5563; color: white; padding: 8px 12px; border-radius: 8px;
-            border: none; font-size: 14px; font-weight: bold; cursor: pointer; flex: 1;
-        }
-        .download-btn {
-            background: #16a34a; color: white; padding: 8px 12px; border-radius: 8px;
-            border: none; font-size: 14px; font-weight: bold; cursor: pointer; flex: 1;
-        }
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* POPUP BOXES */
-        .popup-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75); justify-content: center; align-items: center; padding: 20px;
-            z-index: 999;
-        }
-        .popup-box {
-            background: #2b2b2b; border: 2px solid #dc2626; border-radius: 12px;
-            padding: 25px; max-width: 400px; width: 100%; text-align: center;
-        }
-        .popup-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #dc2626; }
-        .popup-text { font-size: 15px; line-height: 1.7; color: #e0e0e0; margin-bottom: 15px; }
-        .pass-input {
-            width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #777;
-            background: #333; color: white; font-size: 15px; margin-bottom: 12px; text-align: center;
-        }
-        .error-msg { color: #ff4d4d; font-size: 13px; margin-bottom: 10px; display: none; }
-        .close-btn, .submit-btn {
-            padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none;
-        }
-        .close-btn { background: #dc2626; color: white; margin-right: 8px; }
-        .submit-btn { background: #16a34a; color: white; }
+html {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
 
-        /* BOTTOM BUTTONS */
-        .bottom-buttons { margin-top: 25px; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .social-btn, .about-btn {
-            padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500;
-            text-decoration: none; color: white; text-align: center; border: none; cursor: pointer;
-        }
-        .fb-btn { background: #1877F2; }
-        .tiktok-btn { background: #000; border: 1px solid #fe2c55; }
-        .about-btn { background: #7c3aed; }
-    </style>
+body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* APP CONTAINER */
+.app {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2.5vw, 14px);
+
+    padding:
+        calc(12px + env(safe-area-inset-top))
+        calc(15px + env(safe-area-inset-right))
+        12px
+        calc(15px + env(safe-area-inset-left));
+
+    background: #202020;
+    border-bottom: 1px solid #303030;
+}
+
+/* APP ICON */
+.app-icon {
+    width: clamp(38px, 11vw, 48px);
+    height: clamp(38px, 11vw, 48px);
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* APP NAME */
+.app-name {
+    color: #1ed760;
+    font-size: clamp(20px, 5.5vw, 27px);
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+/* MAIN CONTENT */
+main {
+    flex: 1;
+    width: 100%;
+    padding: clamp(15px, 4vw, 25px);
+
+    padding-bottom:
+        calc(25px + env(safe-area-inset-bottom));
+
+    background: linear-gradient(
+        180deg,
+        #252525 0%,
+        #181818 35%,
+        #121212 100%
+    );
+}
+
+/* MUSIC TITLE CARD */
+.music-item {
+    width: 100%;
+    max-width: 100%;
+    background: #282828;
+    border-radius: 12px;
+    padding: clamp(14px, 4vw, 20px);
+    border: 1px solid #353535;
+    margin-bottom: 25px;
+}
+
+/* MUSIC TITLE */
+.music-title {
+    font-size: clamp(14px, 4vw, 18px);
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* MUSIC DURATION */
+.music-duration {
+    color: #b3b3b3;
+    font-size: clamp(12px, 3.5vw, 14px);
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+/* INCLUDED SONGS TITLE */
+.section-title {
+    font-size: clamp(19px, 5vw, 24px);
+    font-weight: bold;
+    color: #1ed760;
+    margin-bottom: 15px;
+}
+
+/* SONG LIST */
+.song-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* SONG CARD */
+.song-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #242424;
+    border: 1px solid #303030;
+    border-radius: 10px;
+    padding: 14px 15px;
+    min-height: 55px;
+}
+
+/* SONG NUMBER */
+.song-number {
+    color: #1ed760;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 25px;
+    flex-shrink: 0;
+}
+
+/* SONG NAME */
+.song-name {
+    color: #eeeeee;
+    font-size: clamp(13px, 3.8vw, 16px);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* SMALL ANDROID SCREENS */
+@media screen and (max-width: 360px) {
+
+    .app-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .app-name {
+        font-size: 21px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .song-item {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .song-name {
+        font-size: 13px;
+    }
+}
+
+/* LARGE ANDROID SCREENS */
+@media screen and (min-width: 600px) {
+
+    main {
+        padding: 25px;
+    }
+
+    .song-item {
+        padding: 17px;
+    }
+
+    .song-name {
+        font-size: 17px;
+    }
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="header">
-    <div class="header-left">
-        <img src="Store.jpg" alt="Icon" class="app-icon">
-        <div class="header-title">Ameer AppStore</div>
-    </div>
-    <div class="header-version">V1.0.0</div>
-</div>
+<div class="app">
 
-<div class="apps-container">
-    <div class="app-card">
-        <img src="Apk1.jpg" alt="The Camp" class="app-thumb">
-        <div class="app-info">
-            <div class="app-name">The Camp</div>
+    <!-- HEADER -->
+    <header>
+
+        <img
+            src="Icon.jpg"
+            class="app-icon"
+            alt="SpotiMeer Icon"
+        >
+
+        <h1 class="app-name">
+            SpotiMeer
+        </h1>
+
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        <!-- MUSIC TITLE AND DURATION -->
+        <div class="music-item">
+
+            <h2 class="music-title">
+                Mushup Song by Ameer V 1.3.0
+            </h2>
+
+            <p class="music-duration">
+                ⏱ Duration: 1 Hour 18 Minutes 21 Seconds
+            </p>
+
         </div>
-        <div class="btn-group">
-            <button class="desc-btn" onclick="openDescPopup()">Description</button>
-            <button class="download-btn" onclick="openPassPopup()">Download</button>
-        </div>
-    </div>
-</div>
 
-<!-- DESCRIPTION POPUP -->
-<div class="popup-overlay" id="descPopup">
-    <div class="popup-box">
-        <div class="popup-title">The Camp</div>
-        <div class="popup-text">
-            Version 1.0.0<br><br>
-            This game created by Ameer<br><br>
-            This game is not fully done and short story for demo only<br><br>
-            <strong>This game requires a download code — for my classmates only.<br>I can't share this if you are not my classmate.</strong><br><br>
-            Download now for free and enjoy thank you!!
-        </div>
-        <button class="close-btn" onclick="closeDescPopup()">Close</button>
-    </div>
-</div>
+        <!-- INCLUDED SONGS -->
+        <h2 class="section-title">
+            Included Songs
+        </h2>
 
-<!-- PASSWORD / CODE POPUP -->
-<div class="popup-overlay" id="passPopup">
-    <div class="popup-box">
-        <div class="popup-title">Enter Download Code</div>
-        <input type="password" id="codeInput" class="pass-input" placeholder="Type code here">
-        <div class="error-msg" id="errorMsg">Wrong code! Try again.</div>
-        <button class="close-btn" onclick="closePassPopup()">Cancel</button>
-        <button class="submit-btn" onclick="checkCode()">Submit</button>
-    </div>
-</div>
+        <div class="song-list" id="songList"></div>
 
-<!-- ABOUT AMEER POPUP -->
-<div class="popup-overlay" id="aboutPopup">
-    <div class="popup-box">
-        <div class="popup-title">About Ameer</div>
-        <div class="popup-text">
-            Hi My nickname is Ameer<br><br>
-            My Name is Ronn-Rylee Jazzemeer Sahiron Gaan<br><br>
-            I'm 17 years old and born June 14, 2009<br><br>
-            I'm from Tawi-Tawi<br><br>
-            And also I'm an solo indie game developer<br><br>
-            Thank you!!
-        </div>
-        <button class="close-btn" onclick="closeAboutPopup()">Close</button>
-    </div>
-</div>
+    </main>
 
-<div class="bottom-buttons">
-    <button class="about-btn" onclick="openAboutPopup()">About Ameer</button>
-    <a href="https://www.facebook.com/share/1AU3g3q6Z9/" target="_blank" class="social-btn fb-btn">Facebook</a>
-    <a href="https://www.tiktok.com/@ameergamestudio?_r=1&_t=ZS-97yOZ2D98vU" target="_blank" class="social-btn tiktok-btn">TikTok</a>
 </div>
 
 <script>
-// POPUP FUNCTIONS
-function openDescPopup() { document.getElementById('descPopup').style.display = 'flex'; }
-function closeDescPopup() { document.getElementById('descPopup').style.display = 'none'; }
-function openPassPopup() {
-    document.getElementById('passPopup').style.display = 'flex';
-    document.getElementById('codeInput').value = '';
-    document.getElementById('errorMsg').style.display = 'none';
-}
-function closePassPopup() { document.getElementById('passPopup').style.display = 'none'; }
-function openAboutPopup() { document.getElementById('aboutPopup').style.display = 'flex'; }
-function closeAboutPopup() { document.getElementById('aboutPopup').style.display = 'none'; }
 
-// CODE CHECKER
-const CORRECT_CODE = 'ForMyCmOnly';
-const DOWNLOAD_LINK = 'https://www.mediafire.com/file/uuhts7f5tvvib0j/The_Camp.apk/download';
+/* ALL 36 SONGS */
+const songs = [
+    "Phut hon duoyin",
+    "Phut hon funk",
+    "One upon a time duoyin",
+    "Track Maker x illusionary date time",
+    "Illusionary date time instrument",
+    "Bass da da x illusionary date time",
+    "Cupid english",
+    "Cupid korean",
+    "Turbo Slap Duoyin",
+    "The recall of nine gate Duoyin",
+    "Tayoki Duoyin",
+    "Night dancer",
+    "Kimi no tori",
+    "Sunshine rainbow white pony",
+    "Masiew x masiw",
+    "See tinh",
+    "PtrioStudio Lalai",
+    "Sprite x GuyGege",
+    "Mimimimi",
+    "I love you much chinese",
+    "Ai du em",
+    "Bare minimum",
+    "Kamin",
+    "Nevada",
+    "Baila lento",
+    "Mandala",
+    "Satisfya",
+    "Sketchers",
+    "Undress rehearsal hardtek",
+    "Playdate",
+    "Life geos on",
+    "Wrap me in the plastic",
+    "Fame",
+    "Unforgettable",
+    "Next door",
+    "Every watching you"
+];
 
-function checkCode() {
-    const input = document.getElementById('codeInput').value.trim();
-    if (input === CORRECT_CODE) {
-        closePassPopup();
-        window.open(DOWNLOAD_LINK, '_blank');
-    } else {
-        document.getElementById('errorMsg').style.display = 'block';
-    }
-}
+/* DISPLAY SONGS */
+const songList = document.getElementById("songList");
+
+songs.forEach((song, index) => {
+
+    const item = document.createElement("div");
+    item.className = "song-item";
+
+    const number = document.createElement("span");
+    number.className = "song-number";
+    number.textContent = index + 1;
+
+    const name = document.createElement("span");
+    name.className = "song-name";
+    name.textContent = song;
+
+    item.appendChild(number);
+    item.appendChild(name);
+
+    songList.appendChild(item);
+
+});
+
 </script>
 
 </body>
