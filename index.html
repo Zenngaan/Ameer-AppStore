@@ -127,6 +127,41 @@ main {
     line-height: 1.5;
 }
 
+/* FILE SIZE */
+.music-size {
+    color: #b3b3b3;
+    font-size: clamp(12px, 3.5vw, 14px);
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+/* DOWNLOAD BUTTON */
+.download-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 18px;
+    background: #1ed760;
+    color: #121212;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.download-btn:hover {
+    background: #1fdf64;
+    transform: scale(1.01);
+}
+
+.download-btn:active {
+    transform: scale(0.98);
+}
+
 /* INCLUDED SONGS TITLE */
 .section-title {
     font-size: clamp(19px, 5vw, 24px);
@@ -169,6 +204,67 @@ main {
     font-size: clamp(13px, 3.8vw, 16px);
     line-height: 1.5;
     overflow-wrap: anywhere;
+}
+
+/* LOADING SCREEN */
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.96);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    padding: 25px;
+}
+
+.loading-screen.active {
+    display: flex;
+}
+
+/* LOADING MESSAGE */
+.loading-message {
+    font-size: clamp(22px, 6vw, 30px);
+    font-weight: bold;
+    color: #1ed760;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* PROGRESS BAR CONTAINER */
+.progress-container {
+    width: 100%;
+    max-width: 350px;
+    height: 12px;
+    background: #333333;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #1ed760;
+    border-radius: 20px;
+    transition: width 0.1s linear;
+}
+
+/* PROGRESS PERCENTAGE */
+.progress-text {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* LOADING SUBTITLE */
+.loading-subtitle {
+    color: #b3b3b3;
+    font-size: 14px;
+    margin-top: 12px;
+    text-align: center;
 }
 
 /* SMALL ANDROID SCREENS */
@@ -238,7 +334,7 @@ main {
     <!-- MAIN CONTENT -->
     <main>
 
-        <!-- MUSIC TITLE AND DURATION -->
+        <!-- MUSIC TITLE, DURATION, SIZE AND DOWNLOAD -->
         <div class="music-item">
 
             <h2 class="music-title">
@@ -248,6 +344,19 @@ main {
             <p class="music-duration">
                 ⏱ Duration: 1 Hour 18 Minutes 21 Seconds
             </p>
+
+            <p class="music-size">
+                📁 File Size: 123.64 MB
+            </p>
+
+            <!-- DOWNLOAD BUTTON -->
+            <button
+                class="download-btn"
+                id="downloadBtn"
+                onclick="startDownload()"
+            >
+                ⬇ DOWNLOAD
+            </button>
 
         </div>
 
@@ -262,7 +371,32 @@ main {
 
 </div>
 
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+
+    <h2 class="loading-message">
+        🖕💀🖐️ wait ka!
+    </h2>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <p class="progress-text" id="progressText">
+        0%
+    </p>
+
+    <p class="loading-subtitle">
+        Please wait...
+    </p>
+
+</div>
+
 <script>
+
+/* MEDIAFIRE DOWNLOAD LINK */
+const downloadLink =
+"https://www.mediafire.com/file/clgtl6injot52kr/Song.mp3/file";
 
 /* ALL 36 SONGS */
 const songs = [
@@ -326,6 +460,69 @@ songs.forEach((song, index) => {
     songList.appendChild(item);
 
 });
+
+/* DOWNLOAD LOADING SYSTEM */
+let isLoading = false;
+
+function startDownload() {
+
+    if (isLoading) return;
+
+    isLoading = true;
+
+    const loadingScreen =
+        document.getElementById("loadingScreen");
+
+    const progressBar =
+        document.getElementById("progressBar");
+
+    const progressText =
+        document.getElementById("progressText");
+
+    const downloadBtn =
+        document.getElementById("downloadBtn");
+
+    let progress = 0;
+
+    loadingScreen.classList.add("active");
+
+    progressBar.style.width = "0%";
+    progressText.textContent = "0%";
+
+    downloadBtn.disabled = true;
+
+    /* 0% TO 100% IN 5 SECONDS */
+    const loadingInterval = setInterval(() => {
+
+        progress++;
+
+        progressBar.style.width = progress + "%";
+        progressText.textContent = progress + "%";
+
+        if (progress >= 100) {
+
+            clearInterval(loadingInterval);
+
+            progressText.textContent = "100%";
+
+            setTimeout(() => {
+
+                /* OPEN MEDIAFIRE */
+                window.location.href = downloadLink;
+
+                loadingScreen.classList.remove("active");
+
+                downloadBtn.disabled = false;
+
+                isLoading = false;
+
+            }, 500);
+
+        }
+
+    }, 50);
+
+}
 
 </script>
 
